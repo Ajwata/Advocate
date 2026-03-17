@@ -1,5 +1,277 @@
 const revealItems = document.querySelectorAll('.reveal');
 const preloader = document.getElementById('preloader');
+const TEXT_ADMIN_STORAGE_KEY = 'kla_text_admin_v1';
+const TEXT_ADMIN_REMOTE_CONFIG_KEY = 'kla_text_admin_remote_v1';
+
+const textEditorConfig = [
+  { key: 'heroOverline', label: 'Hero: Малий заголовок', selector: '#hero .hero-content .overline' },
+  { key: 'heroTitle', label: 'Hero: Головний заголовок', selector: '#hero .hero-content h1' },
+  { key: 'heroSubtitle', label: 'Hero: Підзаголовок', selector: '#hero .hero-content .hero-subtitle' },
+  { key: 'heroCta', label: 'Hero: Кнопка', selector: '#hero .hero-mobile-cta-wrap .cta-btn' },
+  { key: 'urgentOverline', label: 'Термінова допомога: Малий заголовок', selector: '.cta-band.section-muted .cta-band-content .overline' },
+  { key: 'urgentTitle', label: 'Термінова допомога: Заголовок', selector: '.cta-band.section-muted .cta-band-content h2' },
+  { key: 'urgentText', label: 'Термінова допомога: Текст', selector: '.cta-band.section-muted .cta-band-content > p' },
+  { key: 'urgentBtnPrimary', label: 'Термінова допомога: Кнопка 1', selector: '.cta-band.section-muted .cta-band-actions .cta-btn.cta-btn-lg' },
+  { key: 'urgentBtnPhone', label: 'Термінова допомога: Кнопка 2', selector: '.cta-band.section-muted .cta-band-actions .cta-btn-outline' },
+  { key: 'urgentBadge', label: 'Термінова допомога: Бейдж фото', selector: '.cta-band-photo-badge' },
+  { key: 'videosTitle', label: 'Секція: Відео', selector: '#videos .section-head h2' },
+  { key: 'casesTitle', label: 'Секція: Кейси', selector: '#cases .section-head h2' },
+  { key: 'whyTitle', label: 'Секція: Переваги', selector: '#why-us .section-head h2' },
+  { key: 'reviewsTitle', label: 'Секція: Відгуки', selector: '#reviews .section-head h2' },
+  { key: 'militaryTitle', label: 'Секція: Військовим', selector: '#military .section-head h2' },
+  { key: 'militaryFormTitle', label: 'Форма військових: Заголовок', selector: '#military-form .section-head h2' },
+  { key: 'militaryFormText', label: 'Форма військових: Підпис', selector: '#military-form .section-head .hero-subtitle' },
+  { key: 'finalCtaOverline', label: 'Фінальний CTA: Малий заголовок', selector: 'main > .cta-band .overline' },
+  { key: 'finalCtaTitle', label: 'Фінальний CTA: Заголовок', selector: 'main > .cta-band h2' },
+  { key: 'finalCtaText', label: 'Фінальний CTA: Текст', selector: 'main > .cta-band p:not(.overline)' },
+  { key: 'finalCtaBtn', label: 'Фінальний CTA: Кнопка', selector: 'main > .cta-band .cta-btn.cta-btn-lg' },
+  { key: 'modalTitle', label: 'Попап: Заголовок', selector: '#lead-modal-title' },
+  { key: 'modalText', label: 'Попап: Текст', selector: '#lead-modal-form p' },
+];
+
+const getStoredTexts = () => {
+  try {
+    return JSON.parse(localStorage.getItem(TEXT_ADMIN_STORAGE_KEY) || '{}');
+  } catch {
+    return {};
+  }
+};
+
+const getRemoteConfig = () => {
+  try {
+    return JSON.parse(localStorage.getItem(TEXT_ADMIN_REMOTE_CONFIG_KEY) || '{}');
+  } catch {
+    return {};
+  }
+};
+
+const setRemoteConfig = (config) => {
+  localStorage.setItem(TEXT_ADMIN_REMOTE_CONFIG_KEY, JSON.stringify(config));
+};
+
+const applyStoredTexts = () => {
+  const stored = getStoredTexts();
+  textEditorConfig.forEach((item) => {
+    const target = document.querySelector(item.selector);
+    const value = stored[item.key];
+    if (!target || typeof value !== 'string') return;
+    target.textContent = value;
+  });
+};
+
+applyStoredTexts();
+
+const initAdminPanel = () => {
+  const panel = document.getElementById('admin-panel');
+  const toggle = document.getElementById('admin-toggle');
+  const close = document.getElementById('admin-panel-close');
+  const fieldsWrap = document.getElementById('admin-fields');
+  const saveButton = document.getElementById('admin-save');
+  const resetButton = document.getElementById('admin-reset');
+  const endpointInput = document.getElementById('admin-endpoint');
+  const tokenInput = document.getElementById('admin-token');
+  const loadRemoteButton = document.getElementById('admin-load-remote');
+  const pushRemoteButton = document.getElementById('admin-push-remote');
+  const status = document.getElementById('admin-status');
+
+  if (!panel || !toggle || !close || !fieldsWrap || !saveButton || !resetButton || !status || !endpointInput || !tokenInput || !loadRemoteButton || !pushRemoteButton) {
+    return;
+  }
+
+  const defaults = {};
+  const inputsByKey = {};
+  const targetsByKey = {};
+  const stored = getStoredTexts();
+  const remoteConfig = getRemoteConfig();
+
+  endpointInput.value = typeof remoteConfig.endpoint === 'string' ? remoteConfig.endpoint : '';
+  tokenInput.value = typeof remoteConfig.token === 'string' ? remoteConfig.token : '';
+
+  const collectDataFromInputs = () => {
+    const data = {};
+    Object.entries(inputsByKey).forEach(([key, input]) => {
+      data[key] = input.value;
+    });
+    return data;
+  };
+
+  const applyDataToUI = (data) => {
+    Object.entries(inputsByKey).forEach(([key, input]) => {
+      if (typeof data[key] !== 'string') return;
+      input.value = data[key];
+      const targetElement = targetsByKey[key];
+      if (targetElement) {
+        targetElement.textContent = data[key];
+      }
+    });
+  };
+
+  const readRemote = async () => {
+    const endpoint = endpointInput.value.trim();
+    const token = tokenInput.value.trim();
+    if (!endpoint) {
+      throw new Error('Вкажіть API Endpoint.');
+    }
+
+    const headers = {};
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+      headers['X-API-Key'] = token;
+    }
+
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers,
+    });
+
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result?.message || 'Не вдалося завантажити дані з API.');
+    }
+
+    return result?.texts || result?.data || result;
+  };
+
+  const writeRemote = async (texts) => {
+    const endpoint = endpointInput.value.trim();
+    const token = tokenInput.value.trim();
+    if (!endpoint) {
+      throw new Error('Вкажіть API Endpoint.');
+    }
+
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+      headers['X-API-Key'] = token;
+    }
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ texts }),
+    });
+
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result?.message || 'Не вдалося опублікувати дані в API.');
+    }
+
+    return result;
+  };
+
+  textEditorConfig.forEach((item) => {
+    const target = document.querySelector(item.selector);
+    if (!target) return;
+
+    const currentValue = target.textContent.trim();
+    defaults[item.key] = currentValue;
+    targetsByKey[item.key] = target;
+
+    const field = document.createElement('div');
+    field.className = 'admin-field';
+
+    const label = document.createElement('label');
+    label.setAttribute('for', `admin-field-${item.key}`);
+    label.textContent = item.label;
+
+    const textarea = document.createElement('textarea');
+    textarea.id = `admin-field-${item.key}`;
+    textarea.value = typeof stored[item.key] === 'string' ? stored[item.key] : currentValue;
+
+    textarea.addEventListener('input', () => {
+      const targetElement = targetsByKey[item.key];
+      if (!targetElement) return;
+      targetElement.textContent = textarea.value;
+    });
+
+    field.append(label, textarea);
+    fieldsWrap.appendChild(field);
+    inputsByKey[item.key] = textarea;
+  });
+
+  const openPanel = () => {
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+  };
+
+  const closePanel = () => {
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+
+  toggle.addEventListener('click', openPanel);
+  close.addEventListener('click', closePanel);
+
+  const persistRemoteConfig = () => {
+    setRemoteConfig({
+      endpoint: endpointInput.value.trim(),
+      token: tokenInput.value.trim(),
+    });
+  };
+
+  endpointInput.addEventListener('change', persistRemoteConfig);
+  tokenInput.addEventListener('change', persistRemoteConfig);
+
+  const setStatus = (message, isError = false) => {
+    status.textContent = message;
+    status.style.color = isError ? '#b42318' : '#1a7f37';
+  };
+
+  saveButton.addEventListener('click', () => {
+    const data = collectDataFromInputs();
+
+    localStorage.setItem(TEXT_ADMIN_STORAGE_KEY, JSON.stringify(data));
+    persistRemoteConfig();
+    setStatus('Зміни збережено локально.');
+  });
+
+  resetButton.addEventListener('click', () => {
+    localStorage.removeItem(TEXT_ADMIN_STORAGE_KEY);
+    Object.entries(inputsByKey).forEach(([key, input]) => {
+      const fallback = defaults[key] || '';
+      input.value = fallback;
+      const targetElement = targetsByKey[key];
+      if (targetElement) {
+        targetElement.textContent = fallback;
+      }
+    });
+    setStatus('Зміни скинуто.');
+  });
+
+  loadRemoteButton.addEventListener('click', async () => {
+    setStatus('Завантаження з API...');
+    try {
+      persistRemoteConfig();
+      const remoteData = await readRemote();
+      if (!remoteData || typeof remoteData !== 'object') {
+        throw new Error('API повернув некоректні дані.');
+      }
+      applyDataToUI(remoteData);
+      localStorage.setItem(TEXT_ADMIN_STORAGE_KEY, JSON.stringify(collectDataFromInputs()));
+      setStatus('Тексти завантажено з API.');
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Помилка завантаження з API.', true);
+    }
+  });
+
+  pushRemoteButton.addEventListener('click', async () => {
+    setStatus('Публікація в API...');
+    try {
+      persistRemoteConfig();
+      const data = collectDataFromInputs();
+      await writeRemote(data);
+      setStatus('Тексти опубліковано в API.');
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Помилка публікації в API.', true);
+    }
+  });
+};
+
+initAdminPanel();
 
 const hidePreloader = () => {
   if (!preloader) return;
@@ -66,12 +338,14 @@ const nav = document.querySelector('.nav');
 
 menuToggle?.addEventListener('click', () => {
   const isOpen = nav?.classList.toggle('is-open');
+  menuToggle.classList.toggle('is-open');
   menuToggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
 });
 
 nav?.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', () => {
     nav.classList.remove('is-open');
+    menuToggle?.classList.remove('is-open');
     menuToggle?.setAttribute('aria-expanded', 'false');
   });
 });
@@ -97,6 +371,7 @@ document.addEventListener('click', (event) => {
   const clickedInsideHeader = nav.contains(clickTarget) || menuToggle.contains(clickTarget);
   if (!clickedInsideHeader) {
     nav.classList.remove('is-open');
+    menuToggle.classList.remove('is-open');
     menuToggle.setAttribute('aria-expanded', 'false');
   }
 });
@@ -175,7 +450,7 @@ const formSuccessByType = {
 };
 
 const TELEGRAM_BOT_TOKEN = '8651844927:AAEmHoPrQoZSDOD_C5cyQ3wnelXnjxQ3Nb4';
-const TELEGRAM_CHAT_ID = '-5178952977';
+const TELEGRAM_CHAT_ID = '-1003777987132';
 
 const formTypeLabel = {
   'new-client': 'Новий клієнт',
@@ -195,22 +470,32 @@ const sendLeadToTelegram = async (payload) => {
     `Chas: ${payload.createdAt}`,
   ].join('\n');
 
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      chat_id: TELEGRAM_CHAT_ID,
-      text,
-      disable_web_page_preview: true,
-    }),
-  });
+  const send = async (chatId) => {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        disable_web_page_preview: true,
+      }),
+    });
 
-  const result = await response.json();
-  if (!response.ok || !result.ok) {
-    throw new Error(result.description || 'Telegram send failed');
-  }
+    const result = await response.json();
+    if (!response.ok || !result.ok) {
+      const migratedChatId = result?.parameters?.migrate_to_chat_id;
+      if (migratedChatId && String(chatId) !== String(migratedChatId)) {
+        return send(String(migratedChatId));
+      }
+      throw new Error(result.description || 'Telegram send failed');
+    }
+
+    return result;
+  };
+
+  return send(TELEGRAM_CHAT_ID);
 };
 
 const allForms = document.querySelectorAll('.js-lead-form');
@@ -271,7 +556,7 @@ allForms.forEach((form) => {
       form.reset();
 
       if (form.id === 'lead-modal-form') {
-        setTimeout(() => closeLeadModal(), 900);
+        setTimeout(() => closeLeadModal(), 2600);
       }
     } catch (error) {
       console.error(error);
