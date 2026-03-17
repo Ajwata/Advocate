@@ -18,7 +18,14 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="is-preloading">
+    <div class="preloader" id="preloader" aria-hidden="true">
+      <div class="preloader-inner">
+        <img src="Preloader.png" alt="Kaplya Law Aspekt" class="preloader-logo" />
+        <span class="preloader-spinner"></span>
+      </div>
+    </div>
+
     <header class="site-header" id="top">
       <div class="container nav-wrap">
         <a class="brand" href="index.html" aria-label="Kaplya Law Aspekt">
@@ -86,6 +93,25 @@
             Захищаємо ваші права системно, впевнено та в рамках закону. Беремо на
             себе складні справи і доводимо їх до результату.
           </p>
+          <div class="hero-mobile-cta-wrap">
+            <a class="cta-btn cta-btn-discount" href="#lead-modal">Отримати знижку 15% сьогодні</a>
+          </div>
+          <ul class="hero-mobile-advantages">
+            <li>
+              <span class="advantage-number">20+</span>
+              <div class="advantage-text">
+                <strong>років практики</strong>
+                <span>Рішення для складних справ у різних галузях права.</span>
+              </div>
+            </li>
+            <li>
+              <span class="advantage-number">1500+</span>
+              <div class="advantage-text">
+                <strong>виграних справ</strong>
+                <span>Практичний досвід, підтверджений результатами клієнтів.</span>
+              </div>
+            </li>
+          </ul>
         </div>
 
         <div class="hero-media reveal delay-1">
@@ -160,15 +186,16 @@
     <main>
       <section class="cta-band section-muted">
         <div class="container cta-band-inner reveal">
-          <div>
+          <div class="cta-band-content">
             <p class="overline">Термінова допомога</p>
             <h2>Потрібен адвокат вже сьогодні?</h2>
             <p>Отримайте первинну консультацію безкоштовно та зафіксуйте знижку 15%.</p>
+            <div class="cta-band-actions">
+              <a class="cta-btn cta-btn-lg" href="#lead-first">Залишити заявку</a>
+              <a class="cta-btn cta-btn-outline" href="tel:+380976510389">Подзвонити зараз</a>
+            </div>
           </div>
-          <div class="cta-band-actions">
-            <a class="cta-btn cta-btn-lg" href="#lead-first">Залишити заявку</a>
-            <a class="cta-btn cta-btn-outline" href="tel:+380976510389">Подзвонити зараз</a>
-          </div>
+          <img src="My photo.JPG" alt="Адвокат" class="cta-band-photo" />
         </div>
       </section>
 
@@ -563,7 +590,6 @@
           </div>
           <div class="cta-band-actions">
             <a class="cta-btn cta-btn-lg" href="#lead-first">Отримати консультацію</a>
-            <a class="cta-btn cta-btn-outline" href="#contacts">Контакти</a>
           </div>
         </div>
       </section>
@@ -672,6 +698,6 @@
       </div>
     </div>
 
-    <script src="script.js?v=20260317-2"></script>
+    <script src="script.js?v=20260317-3"></script>
   </body>
 </html>

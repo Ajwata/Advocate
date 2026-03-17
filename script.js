@@ -1,4 +1,49 @@
 const revealItems = document.querySelectorAll('.reveal');
+const preloader = document.getElementById('preloader');
+
+const hidePreloader = () => {
+  if (!preloader) return;
+  preloader.classList.add('is-hidden');
+  document.body.classList.remove('is-preloading');
+};
+
+window.addEventListener('load', hidePreloader);
+setTimeout(hidePreloader, 2200);
+
+// Counter animation for advantage numbers
+const animateCounter = (element, target, duration = 1200) => {
+  let current = 0;
+  const increment = target / (duration / 16);
+  const interval = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      current = target;
+      clearInterval(interval);
+    }
+    element.textContent = Math.floor(current) + '+';
+  }, 16);
+};
+
+const counterObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const number = entry.target.querySelector('.advantage-number');
+        if (number && !number.dataset.animated) {
+          const value = parseInt(number.textContent);
+          animateCounter(number, value, 1200);
+          number.dataset.animated = 'true';
+        }
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.3 }
+);
+
+document.querySelectorAll('.hero-mobile-advantages li').forEach((item) => {
+  counterObserver.observe(item);
+});
 
 const revealObserver = new IntersectionObserver(
   (entries, observer) => {
@@ -84,7 +129,7 @@ document.addEventListener('keydown', (event) => {
 
 const leadModal = document.getElementById('lead-modal');
 const leadModalClose = document.getElementById('lead-modal-close');
-const openLeadButtons = document.querySelectorAll('a.cta-btn, a.cta-link-btn');
+const openLeadButtons = document.querySelectorAll('a.cta-btn:not(.cta-btn-outline), a.cta-link-btn');
 
 const openLeadModal = () => {
   if (!leadModal) return;
