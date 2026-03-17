@@ -89,7 +89,7 @@ const formSuccessByType = {
 };
 
 const TELEGRAM_BOT_TOKEN = '8651844927:AAEmHoPrQoZSDOD_C5cyQ3wnelXnjxQ3Nb4';
-const TELEGRAM_CHAT_ID = '7676843570';
+const TELEGRAM_CHAT_ID = '-5178952977';
 
 const formTypeLabel = {
   'new-client': 'Новий клієнт',
