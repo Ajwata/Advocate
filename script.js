@@ -82,6 +82,47 @@ document.addEventListener('keydown', (event) => {
   floatingContactToggle.setAttribute('aria-expanded', 'false');
 });
 
+const leadModal = document.getElementById('lead-modal');
+const leadModalClose = document.getElementById('lead-modal-close');
+const openLeadButtons = document.querySelectorAll('a.cta-btn, a.cta-link-btn');
+
+const openLeadModal = () => {
+  if (!leadModal) return;
+  leadModal.classList.add('is-open');
+  leadModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+const closeLeadModal = () => {
+  if (!leadModal) return;
+  leadModal.classList.remove('is-open');
+  leadModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
+
+openLeadButtons.forEach((button) => {
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    openLeadModal();
+  });
+});
+
+leadModalClose?.addEventListener('click', closeLeadModal);
+
+leadModal?.addEventListener('click', (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  if (target.matches('[data-close-lead-modal]')) {
+    closeLeadModal();
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && leadModal?.classList.contains('is-open')) {
+    closeLeadModal();
+  }
+});
+
 const formSuccessByType = {
   'new-client': 'Дякуємо! Для вас зафіксовано знижку 15% як для нового клієнта.',
   pensioner: 'Заявка прийнята. Для пенсіонерів діє знижка 15%, скоро зателефонуємо.',
@@ -183,6 +224,10 @@ allForms.forEach((form) => {
         formSuccessByType[type] || 'Дякуємо! Ми зв\'яжемося з вами найближчим часом.';
       formMessage.style.color = '#1a7f37';
       form.reset();
+
+      if (form.id === 'lead-modal-form') {
+        setTimeout(() => closeLeadModal(), 900);
+      }
     } catch (error) {
       console.error(error);
       formMessage.textContent = 'Не вдалося відправити заявку. Спробуйте ще раз або зателефонуйте.';

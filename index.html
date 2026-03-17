@@ -22,9 +22,7 @@
     <header class="site-header" id="top">
       <div class="container nav-wrap">
         <a class="brand" href="index.html" aria-label="Kaplya Law Aspekt">
-          <span class="logo-wrap">
-            <img src="photo_2026-03-16_17-07-03.jpg" alt="Kaplya Law Aspekt" class="logo-img" />
-          </span>
+          <img src="photo_2026-03-16_17-07-03.jpg" alt="Kaplya Law Aspekt" class="logo-img" />
         </a>
 
         <button
@@ -71,6 +69,10 @@
           </div>
         </div>
       </div>
+      <a href="tel:+380976510389" class="header-phone-link">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1 .3 2 .4 3 .4.7 0 1.2.5 1.2 1.2V20c0 .7-.5 1.2-1.2 1.2C10.4 21.2 2.8 13.6 2.8 4.4c0-.7.5-1.2 1.2-1.2h3.5c.7 0 1.2.5 1.2 1.2 0 1 .1 2 .4 3 .1.4 0 .9-.3 1.2l-2.2 2.2z"/></svg>
+        +38 097 651 03 89
+      </a>
     </header>
 
     <section class="hero" id="hero">
@@ -88,6 +90,15 @@
 
         <div class="hero-media reveal delay-1">
           <img src="My photo.JPG" alt="Адвокат за столом" class="hero-photo" />
+
+          <div class="hero-mobile-promo">
+            <p class="hero-mobile-promo-title">Наші переваги</p>
+            <ul class="hero-mobile-promo-list">
+              <li>20+ років практики</li>
+              <li>Понад 1500 виграних справ</li>
+            </ul>
+            <a class="cta-btn cta-btn-discount" href="#lead-first">Отримати знижку 15% сьогодні</a>
+          </div>
 
           <form class="lead-form js-lead-form" id="lead-first" data-form-type="new-client">
             <h2>Вперше звертаєтесь? Отримайте 15% знижки</h2>
@@ -624,6 +635,43 @@
       </div>
     </div>
 
-    <script src="script.js?v=20260317-1"></script>
+    <div class="lead-modal" id="lead-modal" aria-hidden="true">
+      <div class="lead-modal-backdrop" data-close-lead-modal></div>
+      <div class="lead-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+        <button type="button" class="lead-modal-close" id="lead-modal-close" aria-label="Закрити форму">&times;</button>
+        <form class="lead-form js-lead-form" id="lead-modal-form" data-form-type="new-client">
+          <h2 id="lead-modal-title">Отримайте консультацію зі знижкою 15%</h2>
+          <p>Залиште контактні дані та коротко опишіть запит. Передзвонимо протягом 15 хвилин.</p>
+
+          <div class="form-row">
+            <label for="name-modal" class="sr-only">Ваше ім'я</label>
+            <input id="name-modal" name="name" type="text" placeholder="Ваше ім'я" required />
+
+            <label for="phone-modal" class="sr-only">Ваш номер телефону</label>
+            <input
+              id="phone-modal"
+              name="phone"
+              type="tel"
+              inputmode="tel"
+              placeholder="+38 (0__) ___-__-__"
+              required
+            />
+          </div>
+
+          <label for="message-modal" class="sr-only">Ваше повідомлення</label>
+          <textarea
+            id="message-modal"
+            name="message"
+            rows="4"
+            placeholder="Коротко опишіть ситуацію"
+            required
+          ></textarea>
+          <button type="submit">Отримати консультацію</button>
+          <small class="form-message" aria-live="polite"></small>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js?v=20260317-2"></script>
   </body>
 </html>
