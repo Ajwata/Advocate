@@ -16,7 +16,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260317-111" />
+    <link rel="stylesheet" href="styles.css?v=20260318-13" />
   </head>
   <body class="is-preloading">
     <div class="preloader" id="preloader" aria-hidden="true">
@@ -204,20 +204,84 @@
       </div>
     </section>
 
+    <section class="section section-muted" id="credentials">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Сертифікати та дипломи</h2>
+          <p>Професійна перекваліфікація та постійне удосконалення практики</p>
+        </div>
+
+        <div class="credentials-carousel reveal">
+          <div class="carousel-main" id="carousel-main">
+            <img id="carousel-main-image" src="img/IMG_0690.PNG" alt="Сертифікат 1" loading="lazy" />
+            <button class="carousel-fullscreen-btn" id="carousel-fullscreen-btn" type="button" aria-label="Відкрити на весь екран" title="Клік для збільшення">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+              </svg>
+            </button>
+            <button class="carousel-nav carousel-nav-prev" type="button" aria-label="Попереднє фото">❮</button>
+            <button class="carousel-nav carousel-nav-next" type="button" aria-label="Наступне фото">❯</button>
+          </div>
+
+          <div class="carousel-thumbs" id="carousel-thumbs">
+            <button class="thumb-item active" data-index="0" data-image="img/IMG_0690.PNG" type="button" aria-label="Сертифікат 1" aria-current="true">
+              <img src="img/IMG_0690.PNG" alt="Сертифікат 1" loading="lazy" />
+            </button>
+            <button class="thumb-item" data-index="1" data-image="img/IMG_0691.PNG" type="button" aria-label="Сертифікат 2">
+              <img src="img/IMG_0691.PNG" alt="Сертифікат 2" loading="lazy" />
+            </button>
+            <button class="thumb-item" data-index="2" data-image="img/IMG_0692.PNG" type="button" aria-label="Сертифікат 3">
+              <img src="img/IMG_0692.PNG" alt="Сертифікат 3" loading="lazy" />
+            </button>
+            <button class="thumb-item" data-index="3" data-image="img/IMG_0693.PNG" type="button" aria-label="Сертифікат 4">
+              <img src="img/IMG_0693.PNG" alt="Сертифікат 4" loading="lazy" />
+            </button>
+            <button class="thumb-item" data-index="4" data-image="img/IMG_0694.PNG" type="button" aria-label="Сертифікат 5">
+              <img src="img/IMG_0694.PNG" alt="Сертифікат 5" loading="lazy" />
+            </button>
+            <button class="thumb-item" data-index="5" data-image="img/IMG_0696.PNG" type="button" aria-label="Сертифікат 6">
+              <img src="img/IMG_0696.PNG" alt="Сертифікат 6" loading="lazy" />
+            </button>
+            <button class="thumb-item" data-index="6" data-image="img/IMG_0697.JPG" type="button" aria-label="Сертифікат 7">
+              <img src="img/IMG_0697.JPG" alt="Сертифікат 7" loading="lazy" />
+            </button>
+            <button class="thumb-item" data-index="7" data-image="img/IMG_0698.PNG" type="button" aria-label="Сертифікат 8">
+              <img src="img/IMG_0698.PNG" alt="Сертифікат 8" loading="lazy" />
+            </button>
+            <button class="thumb-item" data-index="8" data-image="img/IMG_0699.PNG" type="button" aria-label="Сертифікат 9">
+              <img src="img/IMG_0699.PNG" alt="Сертифікат 9" loading="lazy" />
+            </button>
+            <button class="thumb-item" data-index="9" data-image="img/IMG_0700.PNG" type="button" aria-label="Сертифікат 10">
+              <img src="img/IMG_0700.PNG" alt="Сертифікат 10" loading="lazy" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="credential-lightbox" id="credential-lightbox" aria-hidden="true">
+      <div class="credential-lightbox-backdrop"></div>
+      <div class="credential-lightbox-content" role="dialog" aria-modal="true">
+        <button class="credential-lightbox-close" type="button" aria-label="Закрити">×</button>
+        <img src="" alt="" class="credential-lightbox-image" id="credential-lightbox-image" />
+        <button class="credential-nav credential-nav-prev" type="button" aria-label="Попереднє фото">❮</button>
+        <button class="credential-nav credential-nav-next" type="button" aria-label="Наступне фото">❯</button>
+      </div>
+    </div>
+
     <main>
       <section class="cta-band section-muted">
         <div class="container cta-band-inner reveal">
           <div class="cta-band-content">
-            <p class="overline">Термінова допомога</p>
-            <h2>Потрібен адвокат вже сьогодні?</h2>
-            <p>Отримайте первинну консультацію безкоштовно та зафіксуйте знижку 15%.</p>
+            <p class="overline">Про адвоката</p>
+            <h2>Капля Олександр Миколайович</h2>
+            <p>Доктор Юридичних наук та директор юридичної фірми «Аспект» де працюють понад 20 юристів з різних сфер права, які вузько спеціалізуються по різним галузям права.</p>
             <div class="cta-band-actions">
               <a class="cta-btn cta-btn-lg" href="#lead-first">Залишити заявку</a>
-              <a class="cta-btn cta-btn-outline" href="tel:+380976510389">Подзвонити зараз</a>
             </div>
           </div>
           <div class="cta-band-photo-wrap">
-            <img src="My photo.JPG" alt="Адвокат" class="cta-band-photo" />
+            <img src="My photo.JPG" alt="Капля Олександр Миколайович" class="cta-band-photo" />
             <div class="cta-band-photo-badge">20+ років практики</div>
           </div>
         </div>
@@ -231,10 +295,10 @@
 
           <div class="video-grid">
             <article class="video-card reveal delay-1">
-              <div class="ratio-box">
+              <div class="ratio-box ratio-box--short">
                 <iframe
-                  src="https://www.youtube.com/embed/ScMzIvxBSi4"
-                  title="Поради юриста 1"
+                  src="https://www.youtube.com/embed/ZPBMIzdDZvk?rel=0&modestbranding=1"
+                  title="YouTube Shorts 1"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
@@ -243,10 +307,10 @@
             </article>
 
             <article class="video-card reveal delay-2">
-              <div class="ratio-box">
+              <div class="ratio-box ratio-box--short">
                 <iframe
-                  src="https://www.youtube.com/embed/jNQXAC9IVRw"
-                  title="Поради юриста 2"
+                  src="https://www.youtube.com/embed/pKmmPLQJ7Ho?rel=0&modestbranding=1"
+                  title="YouTube Shorts 2"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
@@ -254,15 +318,11 @@
               </div>
             </article>
 
-            <article class="video-card reveal delay-3">
-              <div class="ratio-box">
-                <iframe
-                  src="https://www.youtube.com/embed/M7lc1UVf-VE"
-                  title="Поради юриста 3"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                ></iframe>
+            <article class="video-card reveal delay-3" style="display: none;">
+              <div class="ratio-box ratio-box--short">
+                <div style="background: linear-gradient(135deg, #f0e6d7 0%, #e8dcc8 100%); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.9rem; text-align: center; padding: 1rem;">
+                  Видео #{VIDEO_ID_3}
+                </div>
               </div>
             </article>
           </div>
@@ -746,6 +806,6 @@
       <small class="admin-status" id="admin-status" aria-live="polite"></small>
     </aside>
 
-    <script src="script.js?v=20260317-9"></script>
+    <script src="script.js?v=20260318-6"></script>
   </body>
 </html>

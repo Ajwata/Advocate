@@ -625,3 +625,152 @@ if (reviewsCarousel) {
     }
   });
 }
+
+// Carousel Gallery
+const carouselImages = [
+  { src: 'img/IMG_0690.PNG', alt: 'Сертифікат 1' },
+  { src: 'img/IMG_0691.PNG', alt: 'Сертифікат 2' },
+  { src: 'img/IMG_0692.PNG', alt: 'Сертифікат 3' },
+  { src: 'img/IMG_0693.PNG', alt: 'Сертифікат 4' },
+  { src: 'img/IMG_0694.PNG', alt: 'Сертифікат 5' },
+  { src: 'img/IMG_0696.PNG', alt: 'Сертифікат 6' },
+  { src: 'img/IMG_0697.JPG', alt: 'Сертифікат 7' },
+  { src: 'img/IMG_0698.PNG', alt: 'Сертифікат 8' },
+  { src: 'img/IMG_0699.PNG', alt: 'Сертифікат 9' },
+  { src: 'img/IMG_0700.PNG', alt: 'Сертифікат 10' },
+];
+
+const carouselMainImage = document.getElementById('carousel-main-image');
+const carouselPrevBtn = document.querySelector('.carousel-nav-prev');
+const carouselNextBtn = document.querySelector('.carousel-nav-next');
+const thumbItems = document.querySelectorAll('.thumb-item');
+let currentCarouselIndex = 0;
+
+const updateCarousel = (index) => {
+  currentCarouselIndex = (index + carouselImages.length) % carouselImages.length;
+  const image = carouselImages[currentCarouselIndex];
+  
+  if (carouselMainImage) {
+    carouselMainImage.src = image.src;
+    carouselMainImage.alt = image.alt;
+  }
+  
+  // Update active thumbnail
+  thumbItems.forEach((thumb, i) => {
+    if (i === currentCarouselIndex) {
+      thumb.classList.add('active');
+      thumb.setAttribute('aria-current', 'true');
+      thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    } else {
+      thumb.classList.remove('active');
+      thumb.setAttribute('aria-current', 'false');
+    }
+  });
+};
+
+carouselPrevBtn?.addEventListener('click', () => {
+  updateCarousel(currentCarouselIndex - 1);
+});
+
+carouselNextBtn?.addEventListener('click', () => {
+  updateCarousel(currentCarouselIndex + 1);
+});
+
+// Thumbnail click handlers
+thumbItems.forEach((thumb) => {
+  thumb.addEventListener('click', () => {
+    const index = parseInt(thumb.dataset.index, 10);
+    updateCarousel(index);
+  });
+});
+
+// Keyboard navigation for carousel
+document.addEventListener('keydown', (event) => {
+  const carouselSection = document.getElementById('credentials');
+  if (!carouselSection) return;
+  
+  // Only handle keyboard if carousel is in view or nearby
+  const isCarouselVisible = carouselSection.getBoundingClientRect().top < window.innerHeight;
+  if (!isCarouselVisible) return;
+  
+  if (event.key === 'ArrowLeft') {
+    updateCarousel(currentCarouselIndex - 1);
+  } else if (event.key === 'ArrowRight') {
+    updateCarousel(currentCarouselIndex + 1);
+  }
+});
+
+// Credential Lightbox
+const carouselMainElement = document.getElementById('carousel-main');
+const carouselFullscreenBtn = document.getElementById('carousel-fullscreen-btn');
+const credentialLightbox = document.getElementById('credential-lightbox');
+const credentialLightboxImage = document.getElementById('credential-lightbox-image');
+const credentialLightboxClose = document.querySelector('.credential-lightbox-close');
+const credentialNavNext = document.querySelector('.credential-nav-next');
+const credentialNavPrev = document.querySelector('.credential-nav-prev');
+let currentLightboxIndex = 0;
+
+const openCredentialLightbox = (index) => {
+  if (!credentialLightbox || index < 0 || index >= carouselImages.length) return;
+  currentLightboxIndex = index;
+  const image = carouselImages[index];
+  
+  if (credentialLightboxImage) {
+    credentialLightboxImage.src = image.src;
+    credentialLightboxImage.alt = image.alt;
+  }
+  
+  credentialLightbox.classList.add('is-open');
+  credentialLightbox.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+const closeCredentialLightbox = () => {
+  if (!credentialLightbox) return;
+  credentialLightbox.classList.remove('is-open');
+  credentialLightbox.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
+
+const showNextCredentialImage = () => {
+  const nextIndex = (currentLightboxIndex + 1) % carouselImages.length;
+  openCredentialLightbox(nextIndex);
+};
+
+const showPrevCredentialImage = () => {
+  const prevIndex = (currentLightboxIndex - 1 + carouselImages.length) % carouselImages.length;
+  openCredentialLightbox(prevIndex);
+};
+
+// Open lightbox on button click or image click
+carouselFullscreenBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  openCredentialLightbox(currentCarouselIndex);
+});
+
+carouselMainElement?.addEventListener('click', (e) => {
+  if (e.target.matches('button')) return;
+  openCredentialLightbox(currentCarouselIndex);
+});
+
+credentialLightboxClose?.addEventListener('click', closeCredentialLightbox);
+credentialNavNext?.addEventListener('click', showNextCredentialImage);
+credentialNavPrev?.addEventListener('click', showPrevCredentialImage);
+
+credentialLightbox?.addEventListener('click', (event) => {
+  if (event.target === credentialLightbox || event.target.classList.contains('credential-lightbox-backdrop')) {
+    closeCredentialLightbox();
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (!credentialLightbox?.classList.contains('is-open')) return;
+  
+  if (event.key === 'Escape') {
+    closeCredentialLightbox();
+  } else if (event.key === 'ArrowRight') {
+    showNextCredentialImage();
+  } else if (event.key === 'ArrowLeft') {
+    showPrevCredentialImage();
+  }
+});
