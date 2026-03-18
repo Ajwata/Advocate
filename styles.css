@@ -293,6 +293,11 @@ h1 {
   margin-top: 0.9rem;
 }
 
+.hero-title-emoji {
+  font-size: 0.55em;
+  vertical-align: 0.12em;
+}
+
 h2 {
   font-size: clamp(1.9rem, 4vw, 3.2rem);
   line-height: 1;
@@ -764,6 +769,10 @@ h3 {
 
 .section-gallery--two {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.section-gallery--single {
+  grid-template-columns: 1fr;
 }
 
 .section-gallery--equal {
@@ -1281,6 +1290,10 @@ h3 {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 0.9rem;
   align-items: stretch;
+}
+
+.military-layout--single {
+  grid-template-columns: 1fr;
 }
 
 .military-main-card,
