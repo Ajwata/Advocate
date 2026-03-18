@@ -16,7 +16,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260318-13" />
+    <link rel="stylesheet" href="styles.css?v=20260318-20" />
   </head>
   <body class="is-preloading">
     <div class="preloader" id="preloader" aria-hidden="true">
@@ -204,14 +204,32 @@
       </div>
     </section>
 
-    <section class="section section-muted" id="credentials">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>Сертифікати та дипломи</h2>
-          <p>Професійна перекваліфікація та постійне удосконалення практики</p>
+    <main>
+      <section class="cta-band section-muted">
+        <div class="container cta-band-inner reveal">
+          <div class="cta-band-content">
+            <p class="overline">Про адвоката</p>
+            <h2>Капля Олександр Миколайович</h2>
+            <p>Доктор Юридичних наук та директор юридичної фірми «Аспект» де працюють понад 20 юристів з різних сфер права, які вузько спеціалізуються по різним галузям права.</p>
+            <div class="cta-band-actions">
+              <a class="cta-btn cta-btn-lg" href="#lead-first">Залишити заявку</a>
+            </div>
+          </div>
+          <div class="cta-band-photo-wrap">
+            <img src="My photo.JPG" alt="Капля Олександр Миколайович" class="cta-band-photo" />
+            <div class="cta-band-photo-badge">20+ років практики</div>
+          </div>
         </div>
+      </section>
 
-        <div class="credentials-carousel reveal">
+      <section class="section section-muted" id="credentials">
+        <div class="container">
+          <div class="section-head reveal">
+            <h2>Сертифікати та дипломи</h2>
+            <p>Професійна перекваліфікація та постійне удосконалення практики</p>
+          </div>
+
+          <div class="credentials-carousel reveal">
           <div class="carousel-main" id="carousel-main">
             <img id="carousel-main-image" src="img/IMG_0690.PNG" alt="Сертифікат 1" loading="lazy" />
             <button class="carousel-fullscreen-btn" id="carousel-fullscreen-btn" type="button" aria-label="Відкрити на весь екран" title="Клік для збільшення">
@@ -269,62 +287,53 @@
       </div>
     </div>
 
-    <main>
-      <section class="cta-band section-muted">
-        <div class="container cta-band-inner reveal">
-          <div class="cta-band-content">
-            <p class="overline">Про адвоката</p>
-            <h2>Капля Олександр Миколайович</h2>
-            <p>Доктор Юридичних наук та директор юридичної фірми «Аспект» де працюють понад 20 юристів з різних сфер права, які вузько спеціалізуються по різним галузям права.</p>
-            <div class="cta-band-actions">
-              <a class="cta-btn cta-btn-lg" href="#lead-first">Залишити заявку</a>
-            </div>
-          </div>
-          <div class="cta-band-photo-wrap">
-            <img src="My photo.JPG" alt="Капля Олександр Миколайович" class="cta-band-photo" />
-            <div class="cta-band-photo-badge">20+ років практики</div>
-          </div>
-        </div>
-      </section>
-
       <section class="section" id="videos">
         <div class="container">
           <div class="section-head reveal">
-            <h2>Відео юриста</h2>
+            <h2>Ми в соцмережах📱</h2>
           </div>
 
-          <div class="video-grid">
-            <article class="video-card reveal delay-1">
-              <div class="ratio-box ratio-box--short">
-                <iframe
-                  src="https://www.youtube.com/embed/ZPBMIzdDZvk?rel=0&modestbranding=1"
-                  title="YouTube Shorts 1"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </article>
-
-            <article class="video-card reveal delay-2">
-              <div class="ratio-box ratio-box--short">
-                <iframe
-                  src="https://www.youtube.com/embed/pKmmPLQJ7Ho?rel=0&modestbranding=1"
-                  title="YouTube Shorts 2"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </article>
-
-            <article class="video-card reveal delay-3" style="display: none;">
-              <div class="ratio-box ratio-box--short">
-                <div style="background: linear-gradient(135deg, #f0e6d7 0%, #e8dcc8 100%); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.9rem; text-align: center; padding: 1rem;">
-                  Видео #{VIDEO_ID_3}
+          <div class="videos-carousel reveal" id="videos-carousel">
+            <div class="videos-carousel-track">
+              <article class="video-card">
+                <div class="ratio-box ratio-box--short">
+                  <div class="video-touch-overlay"></div>
+                  <iframe
+                    src="https://www.youtube.com/embed/ZPBMIzdDZvk?rel=0&modestbranding=1"
+                    title="YouTube Shorts 1"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                  ></iframe>
                 </div>
-              </div>
-            </article>
+              </article>
+
+              <article class="video-card">
+                <div class="ratio-box ratio-box--short">
+                  <div class="video-touch-overlay"></div>
+                  <iframe
+                    src="https://www.youtube.com/embed/pKmmPLQJ7Ho?rel=0&modestbranding=1"
+                    title="YouTube Shorts 2"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+              </article>
+
+              <article class="video-card" style="display: none;" id="video-card-3">
+                <div class="ratio-box ratio-box--short">
+                  <div style="background: linear-gradient(135deg, #f0e6d7 0%, #e8dcc8 100%); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.9rem; text-align: center; padding: 1rem;">
+                    Видео #{VIDEO_ID_3}
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="carousel-arrows">
+              <button class="arrow arrow-prev" id="videos-arrow-prev" type="button" aria-label="Попереднє відео">❮</button>
+              <button class="arrow arrow-next" id="videos-arrow-next" type="button" aria-label="Наступне відео">❯</button>
+            </div>
           </div>
         </div>
       </section>
@@ -806,6 +815,6 @@
       <small class="admin-status" id="admin-status" aria-live="polite"></small>
     </aside>
 
-    <script src="script.js?v=20260318-6"></script>
+    <script src="script.js?v=20260318-14"></script>
   </body>
 </html>

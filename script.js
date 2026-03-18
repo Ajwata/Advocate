@@ -774,3 +774,78 @@ document.addEventListener('keydown', (event) => {
     showPrevCredentialImage();
   }
 });
+
+// Videos Carousel with Arrows
+const videoCarouselTrack = document.querySelector('.videos-carousel-track');
+const videosCarousel = document.getElementById('videos-carousel');
+const videoCards = document.querySelectorAll('.video-card');
+const videosArrowPrev = document.getElementById('videos-arrow-prev');
+const videosArrowNext = document.getElementById('videos-arrow-next');
+let currentVideoIndex = 0;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+const totalVideos = videoCards.length;
+
+const showVideo = (index) => {
+  if (!videoCarouselTrack) return;
+  
+  // Limit index to valid range
+  if (index < 0) index = 0;
+  if (index >= totalVideos) index = totalVideos - 1;
+  
+  currentVideoIndex = index;
+  const scrollAmount = index * 304; // video card width (280px) + gap (1.2rem ≈ 24px)
+  
+  videoCarouselTrack.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+};
+
+// Arrow click handlers
+if (videosArrowPrev) {
+  videosArrowPrev.addEventListener('click', () => {
+    showVideo(currentVideoIndex - 1);
+  });
+}
+
+if (videosArrowNext) {
+  videosArrowNext.addEventListener('click', () => {
+    showVideo(currentVideoIndex + 1);
+  });
+}
+
+// Touch handlers for swipe - attach to video cards
+if (videoCards.length > 0) {
+  videoCards.forEach((card) => {
+    card.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, false);
+
+    card.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipe();
+    }, false);
+  });
+}
+
+const handleSwipe = () => {
+  const swipeThreshold = 50;
+  const verticalThreshold = 30; // Don't swipe if vertical movement is too much
+  
+  const diffX = touchStartX - touchEndX;
+  const diffY = Math.abs(touchStartY - touchEndY);
+  
+  // Only consider horizontal swipes
+  if (Math.abs(diffX) > swipeThreshold && diffY < verticalThreshold) {
+    if (diffX > 0) {
+      // Swipe left - show next video
+      showVideo(currentVideoIndex + 1);
+    } else {
+      // Swipe right - show previous video
+      showVideo(currentVideoIndex - 1);
+    }
+  }
+};
